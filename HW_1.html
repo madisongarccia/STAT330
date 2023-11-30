@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Madison Wozniak">
+
+<title>Homework 1 | STAT 330</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="HW_1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="HW_1_files/libs/quarto-html/quarto.js"></script>
+<script src="HW_1_files/libs/quarto-html/popper.min.js"></script>
+<script src="HW_1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="HW_1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="HW_1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="HW_1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="HW_1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="HW_1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="HW_1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework 1 | STAT 330</h1>
+<p class="subtitle lead">Simple Linear Regression</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Madison Wozniak </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="data-and-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-description">Data and Description</h2>
+<p>Energy can be produced from wind using windmills. Choosing a site for a wind farm (i.e.&nbsp;the location of the windmills), however, can be a multi-million dollar gamble. If wind is inadequate at the site, then the energy produced over the lifetime of the wind farm can be much less than the cost of building the operation. Hence, accurate prediction of wind speed at a candidate site can be an important component in the decision to build or not to build. Since energy produced varies as the square of the wind speed, even small errors in prediction can have serious consequences.</p>
+<p>One possible solution to help predict wind speed at a candidate site is to use wind speed at a nearby reference site. A reference site is a nearby location where the wind speed is already being monitored and should, theoretically, be similar to the candidate site. Using information from the reference site will allow windmill companies to estimate the wind speed at the candidate site without going through a costly data collection period, if the reference site is a good predictor.</p>
+<p>The Windmill data set contains measurements of wind speed (in meters per second m/s) at a <strong>candidate site (CSpd) (column 1)</strong> and at an accompanying <strong>reference site (RSpd) (column 2)</strong> for 1,116 areas. Download the Windmill.txt file from Canvas, and put it in the same folder as this quarto file.</p>
+<section id="replace-the-text-put-your-name-here-above-next-to-author-with-your-full-name." class="level4">
+<h4 class="anchored" data-anchor-id="replace-the-text-put-your-name-here-above-next-to-author-with-your-full-name.">0. Replace the text “&lt; PUT YOUR NAME HERE &gt;” (above next to “author:”) with your full name.</h4>
+</section>
+<section id="briefly-explain-why-simple-linear-regression-could-be-a-useful-tool-for-this-problem." class="level4">
+<h4 class="anchored" data-anchor-id="briefly-explain-why-simple-linear-regression-could-be-a-useful-tool-for-this-problem.">1. Briefly explain why simple linear regression could be a useful tool for this problem.</h4>
+<p>Simple linear regression could be the most useful tool for this problem because we are trying to use our data to accurately infer the true wind speed at the candidate site.</p>
+</section>
+<section id="read-in-the-data-set-and-call-the-tibble-wind.-print-a-summary-of-the-data-and-make-sure-the-data-makes-sense." class="level4">
+<h4 class="anchored" data-anchor-id="read-in-the-data-set-and-call-the-tibble-wind.-print-a-summary-of-the-data-and-make-sure-the-data-makes-sense.">2. Read in the data set, and call the tibble “wind”. Print a summary of the data and make sure the data makes sense.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span> <span class="fu">read_table</span>(<span class="st">'Windmill.txt'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+── Column specification ────────────────────────────────────────────────────────
+cols(
+  CSpd = col_double(),
+  RSpd = col_double()
+)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      CSpd             RSpd        
+ Min.   : 0.400   Min.   : 0.2221  
+ 1st Qu.: 6.100   1st Qu.: 4.7769  
+ Median : 8.800   Median : 7.5477  
+ Mean   : 9.019   Mean   : 7.7773  
+ 3rd Qu.:11.500   3rd Qu.:10.2096  
+ Max.   :22.400   Max.   :21.6015  </code></pre>
+</div>
+</div>
+</section>
+<section id="what-is-the-outcome-variable-in-this-situation-think-about-which-variable-makes-the-most-sense-to-be-the-response." class="level4">
+<h4 class="anchored" data-anchor-id="what-is-the-outcome-variable-in-this-situation-think-about-which-variable-makes-the-most-sense-to-be-the-response.">3. What is the outcome variable in this situation? (Think about which variable makes the most sense to be the response.)</h4>
+<p>The outcome variable is the measurements of wind speed at the candidate site.</p>
+</section>
+<section id="what-is-the-explanatory-variable-in-this-situation" class="level4">
+<h4 class="anchored" data-anchor-id="what-is-the-explanatory-variable-in-this-situation">4. What is the explanatory variable in this situation?</h4>
+<p>Explanatory variable is wind speed at the reference site.</p>
+</section>
+<section id="create-a-scatterplot-of-the-data-with-variables-on-the-appropriate-axes.-add-descriptive-axis-labels-with-appropriate-units.-save-the-plot-to-a-variable-and-print-the-plot." class="level4">
+<h4 class="anchored" data-anchor-id="create-a-scatterplot-of-the-data-with-variables-on-the-appropriate-axes.-add-descriptive-axis-labels-with-appropriate-units.-save-the-plot-to-a-variable-and-print-the-plot.">5. Create a scatterplot of the data with variables on the appropriate axes. Add descriptive axis labels with appropriate units. Save the plot to a variable and print the plot.</h4>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wind_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> wind) <span class="sc">+</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> RSpd, <span class="at">y =</span> CSpd))<span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"reference site in meters per second m/s "</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"candidate site in meters per second m/s "</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wind_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HW_1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="briefly-describe-the-relationship-between-rspd-and-cspd.-hint-you-should-use-3-key-words-in-a-complete-sentence-that-includes-referencing-the-variables." class="level4">
+<h4 class="anchored" data-anchor-id="briefly-describe-the-relationship-between-rspd-and-cspd.-hint-you-should-use-3-key-words-in-a-complete-sentence-that-includes-referencing-the-variables.">6. Briefly describe the relationship between RSpd and CSpd. (Hint: you should use 3 key words in a complete sentence that includes referencing the variables.)</h4>
+<p>There is a strong, positive, linear relationship between RSpd and CSpd.</p>
+</section>
+<section id="calculate-the-correlation-coefficient-for-the-two-variables-you-may-use-a-built-in-r-function.-print-the-result." class="level4">
+<h4 class="anchored" data-anchor-id="calculate-the-correlation-coefficient-for-the-two-variables-you-may-use-a-built-in-r-function.-print-the-result.">7. Calculate the correlation coefficient for the two variables (you may use a built-in R function). Print the result.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(wind<span class="sc">$</span>CSpd, wind<span class="sc">$</span>RSpd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7555948</code></pre>
+</div>
+</div>
+</section>
+<section id="briefly-interpret-the-number-you-calculated-for-the-correlation-coefficient-what-is-the-direction-and-strength-of-the-correlation." class="level4">
+<h4 class="anchored" data-anchor-id="briefly-interpret-the-number-you-calculated-for-the-correlation-coefficient-what-is-the-direction-and-strength-of-the-correlation.">8. Briefly interpret the number you calculated for the correlation coefficient (what is the direction and strength of the correlation?).</h4>
+<p>The correlation coefficient tells us there is a strong positive correlation between the two variables.</p>
+</section>
+<section id="mathematically-write-out-the-simple-linear-regression-model-for-this-data-set-using-parameters-betas-not-estimates-and-not-using-matrix-notation.-clearly-explain-which-part-of-the-model-is-deterministic-and-which-part-is-random.-do-not-use-x-and-y-in-your-model---use-variable-names-that-are-fairly-descriptive." class="level4">
+<h4 class="anchored" data-anchor-id="mathematically-write-out-the-simple-linear-regression-model-for-this-data-set-using-parameters-betas-not-estimates-and-not-using-matrix-notation.-clearly-explain-which-part-of-the-model-is-deterministic-and-which-part-is-random.-do-not-use-x-and-y-in-your-model---use-variable-names-that-are-fairly-descriptive.">9. Mathematically write out the simple linear regression model for this data set (using parameters (<span class="math inline">\(\beta\)</span>s), not estimates, and not using matrix notation). Clearly explain which part of the model is deterministic and which part is random. Do not use “x” and “y” in your model - use variable names that are fairly descriptive.</h4>
+<p><span class="math inline">\(\text{Wind Model}\)</span> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span> <span class="math inline">\(\times\)</span> <span class="math inline">\(\text{wind speed}_i\)</span> + <span class="math inline">\(\epsilon_i\)</span></p>
+</section>
+<section id="add-the-ols-regression-line-to-the-scatterplot-you-created-in-4.-print-the-result.-you-can-remove-the-standard-error-line-with-the-option-se-false." class="level4">
+<h4 class="anchored" data-anchor-id="add-the-ols-regression-line-to-the-scatterplot-you-created-in-4.-print-the-result.-you-can-remove-the-standard-error-line-with-the-option-se-false.">10. Add the OLS regression line to the scatterplot you created in 4. Print the result. You can remove the standard error line with the option <code>se = FALSE</code>.</h4>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wind_plot <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_smooth</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> RSpd, <span class="at">y =</span> CSpd),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HW_1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-apply-linear-regression-to-the-data.-b-print-out-a-summary-of-the-results-from-the-lm-function.-c-save-the-residuals-and-fitted-values-to-the-wind-tibble.-d-print-the-first-few-rows-of-the-wind-tibble." class="level4">
+<h4 class="anchored" data-anchor-id="a-apply-linear-regression-to-the-data.-b-print-out-a-summary-of-the-results-from-the-lm-function.-c-save-the-residuals-and-fitted-values-to-the-wind-tibble.-d-print-the-first-few-rows-of-the-wind-tibble.">11. (a) Apply linear regression to the data. (b) Print out a summary of the results from the <code>lm</code> function. (c) Save the residuals and fitted values to the <code>wind</code> tibble. (d) Print the first few rows of the <code>wind</code> tibble.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wind.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(CSpd<span class="sc">~</span>RSpd, <span class="at">data =</span> wind)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wind.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = CSpd ~ RSpd, data = wind)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.7877 -1.5864 -0.1994  1.4403  9.1738 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.14123    0.16958   18.52   &lt;2e-16 ***
+RSpd         0.75573    0.01963   38.50   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.466 on 1114 degrees of freedom
+Multiple R-squared:  0.5709,    Adjusted R-squared:  0.5705 
+F-statistic:  1482 on 1 and 1114 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span> wind <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residuals =</span> wind.lm<span class="sc">$</span>residuals,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">fitted_values =</span> wind.lm<span class="sc">$</span>fitted.values)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(wind))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+   CSpd  RSpd residuals fitted_values
+  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+1   6.9  5.97    -0.750          7.65
+2   7.1  7.22    -1.50           8.60
+3   7.8  7.94    -1.34           9.14
+4   6.9  6.02    -0.789          7.69
+5   5.5  6.16    -2.30           7.80
+6   3.1  1.77    -1.38           4.48</code></pre>
+</div>
+</div>
+</section>
+<section id="briefly-explain-the-rationale-behind-minimizing-squared-error-loss.-how-does-ols-choose-the-parameter-estimates" class="level4">
+<h4 class="anchored" data-anchor-id="briefly-explain-the-rationale-behind-minimizing-squared-error-loss.-how-does-ols-choose-the-parameter-estimates">12. Briefly explain the rationale behind minimizing squared error loss. How does OLS choose the parameter estimates?</h4>
+<p>We minimize squared error loss so that we can estimate a line of best fit for our data. OLS chooses the parameter estimates (beta 0 and beta 1) by multiplying the correlation coefficient of our two variables by the standard deviation of RSpd divided by the standard deviation of CSpd.We want to minimize the squared error loss to provides a measure of how well our model fits the data.</p>
+</section>
+<section id="mathematically-write-out-the-fitted-simple-linear-regression-model-for-this-data-set-using-the-coefficients-you-found-above-do-not-use-parametersbetas-and-do-not-use-matrix-notation.-do-not-use-x-and-y-in-your-model---use-variable-names-that-are-fairly-descriptive." class="level4">
+<h4 class="anchored" data-anchor-id="mathematically-write-out-the-fitted-simple-linear-regression-model-for-this-data-set-using-the-coefficients-you-found-above-do-not-use-parametersbetas-and-do-not-use-matrix-notation.-do-not-use-x-and-y-in-your-model---use-variable-names-that-are-fairly-descriptive.">13. Mathematically write out the fitted simple linear regression model for this data set using the coefficients you found above (do not use parameters/<span class="math inline">\(\beta\)</span>s and do not use matrix notation). Do not use “x” and “y” in your model - use variable names that are fairly descriptive.</h4>
+<p><span class="math inline">\(\text{Wind Model}\)</span> = 3.1412 + 0.7557 <span class="math inline">\(\times\)</span> <span class="math inline">\(\text{RSpd}_i\)</span></p>
+</section>
+<section id="interpret-the-coefficient-for-the-slope." class="level4">
+<h4 class="anchored" data-anchor-id="interpret-the-coefficient-for-the-slope.">14. Interpret the coefficient for the slope.</h4>
+<p>The coefficient for the slope is the change in wind speed for every single unit increase in reference site wind speed.</p>
+</section>
+<section id="interpret-the-coefficient-for-the-intercept." class="level4">
+<h4 class="anchored" data-anchor-id="interpret-the-coefficient-for-the-intercept.">15. Interpret the coefficient for the intercept.</h4>
+<p>The coefficient for the intercept is the value of our model if reference site wind speed were zero.</p>
+</section>
+<section id="what-is-the-estimated-average-wind-speed-at-the-candidate-site-cspd-when-the-wind-speed-at-the-reference-site-rspd-is-12-ms-show-your-code-and-print-the-result." class="level4">
+<h4 class="anchored" data-anchor-id="what-is-the-estimated-average-wind-speed-at-the-candidate-site-cspd-when-the-wind-speed-at-the-reference-site-rspd-is-12-ms-show-your-code-and-print-the-result.">16. What is the estimated average wind speed at the candidate site (CSpd) when the wind speed at the reference site (RSpd) is 12 m/s? Show your code, and print the result.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">predict</span>(wind.lm, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">RSpd =</span> <span class="dv">12</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+12.21003 </code></pre>
+</div>
+</div>
+</section>
+<section id="briefly-explain-why-it-would-be-risky-to-answer-this-question-what-is-the-estimated-average-wind-speed-at-the-candidate-site-cspd-when-the-wind-speed-at-the-reference-site-rspd-is-25-ms" class="level4">
+<h4 class="anchored" data-anchor-id="briefly-explain-why-it-would-be-risky-to-answer-this-question-what-is-the-estimated-average-wind-speed-at-the-candidate-site-cspd-when-the-wind-speed-at-the-reference-site-rspd-is-25-ms">17. Briefly explain why it would be risky to answer this question: What is the estimated average wind speed at the candidate site (CSpd) when the wind speed at the reference site (RSpd) is 25 m/s?</h4>
+<p>There is not much data for a wind speed higher than 20, so extrapolating our model to much higher (or lower) values than what we have data on can provide more inaccurate predictions.</p>
+</section>
+<section id="calculate-the-unbiased-estimate-of-sigma2-the-average-squared-variability-of-the-residuals-around-the-line.-show-your-code-and-print-the-result." class="level4">
+<h4 class="anchored" data-anchor-id="calculate-the-unbiased-estimate-of-sigma2-the-average-squared-variability-of-the-residuals-around-the-line.-show-your-code-and-print-the-result.">18. Calculate the (unbiased) estimate of <span class="math inline">\(\sigma^2\)</span>, the average squared variability of the residuals around the line. Show your code, and print the result.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>resids <span class="ot">&lt;-</span> wind.lm<span class="sc">$</span>residuals</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>rss <span class="ot">&lt;-</span> <span class="fu">sum</span>(resids<span class="sc">**</span><span class="dv">2</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> rss<span class="sc">/</span>(<span class="fu">nrow</span>(wind) <span class="sc">-</span> <span class="dv">2</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(MSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.082312</code></pre>
+</div>
+</div>
+</section>
+<section id="create-the-design-matrix-and-store-it-in-a-variable.-print-the-first-few-rows-of-the-design-matrix." class="level4">
+<h4 class="anchored" data-anchor-id="create-the-design-matrix-and-store-it-in-a-variable.-print-the-first-few-rows-of-the-design-matrix.">19. Create the design matrix and store it in a variable. Print the first few rows of the design matrix.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design_matrix <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>RSpd, <span class="at">data =</span>  wind)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(design_matrix))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept)   RSpd
+1           1 5.9666
+2           1 7.2176
+3           1 7.9405
+4           1 6.0174
+5           1 6.1646
+6           1 1.7687</code></pre>
+</div>
+</div>
+</section>
+<section id="obtain-and-print-the-parameter-estimates-for-this-data-set-found-above-using-lm-using-matrix-multiplication.-you-should-use-the-following-in-your-computations-t-tranpose-solve-inverse-matrix-multiplicaiton." class="level4">
+<h4 class="anchored" data-anchor-id="obtain-and-print-the-parameter-estimates-for-this-data-set-found-above-using-lm-using-matrix-multiplication.-you-should-use-the-following-in-your-computations-t-tranpose-solve-inverse-matrix-multiplicaiton.">20. Obtain, and print, the parameter estimates for this data set (found above using <code>lm</code>) using matrix multiplication. You should use the following in your computations: t() [tranpose], solve() [inverse], %*% [matrix multiplicaiton].</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>parameter_estimates <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(design_matrix)<span class="sc">%*%</span>design_matrix) <span class="sc">%*%</span> <span class="fu">t</span>(design_matrix) <span class="sc">%*%</span> wind<span class="sc">$</span>CSpd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="briefly-summarize-what-you-learned-personally-from-this-analysis-about-the-statistics-model-fitting-process-etc." class="level4">
+<h4 class="anchored" data-anchor-id="briefly-summarize-what-you-learned-personally-from-this-analysis-about-the-statistics-model-fitting-process-etc.">21. Briefly summarize what you learned, personally, from this analysis about the statistics, model fitting process, etc.</h4>
+<p>I learned how using matrices for our models can be useful, and that our models can’t be extrapolated to data that is not represented in our table so we have to be careful when deciding what questions we use our models to answer.</p>
+</section>
+<section id="briefly-summarize-what-you-learned-from-this-analysis-to-a-non-statistician.-write-a-few-sentences-about-1-the-purpose-of-this-data-set-and-analysis-and-2-what-you-learned-about-this-data-set-from-your-analysis.-write-your-response-as-if-you-were-addressing-a-business-manager-avoid-using-statistics-jargon-and-just-provide-the-main-take-aways." class="level4">
+<h4 class="anchored" data-anchor-id="briefly-summarize-what-you-learned-from-this-analysis-to-a-non-statistician.-write-a-few-sentences-about-1-the-purpose-of-this-data-set-and-analysis-and-2-what-you-learned-about-this-data-set-from-your-analysis.-write-your-response-as-if-you-were-addressing-a-business-manager-avoid-using-statistics-jargon-and-just-provide-the-main-take-aways.">22. Briefly summarize what you learned from this analysis <em>to a non-statistician</em>. Write a few sentences about (1) the purpose of this data set and analysis and (2) what you learned about this data set from your analysis. Write your response as if you were addressing a business manager (avoid using statistics jargon) and just provide the main take-aways.</h4>
+<p>The purpose of this data set is to more accurately decide a location for a wind speed location by using a location we currently have data on that is similar in certain aspects to the potential new site that may be constructed. Instead of building a new site and later seeing if it was a good location, we use our simple linear model to estimate wind speed at that potential site. From my analysis I learned that both locations had a pretty strong relationship to each other so for wind speeds between 0-20m/s, we can confidently predict candidate site wind speeds.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

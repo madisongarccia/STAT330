@@ -1,0 +1,294 @@
+---
+title: "Homework 3"
+subtitle: <center> <h1>Simple Linear Regression Model Inference</h1> </center>
+author: <center> < Madison Wozniak > <center>
+output: html_document
+---
+
+<style type="text/css">
+h1.title {
+  font-size: 40px;
+  text-align: center;
+}
+</style>
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(ggfortify)
+library(alr4)
+library(car)
+```
+
+## Data and Description
+
+Climate change has left California particularly vulnerable to severe drought conditions. One factor affecting water availability in Southern California is stream runoff from snowfall (FYI: water in Utah is also heavily reliant on snowpack). If runoff could be predicted, engineers, planners, and policy makers could do their jobs more effectively because they would have an estimate as to how much water is entering the area. 
+
+The Runoff Water data set compares the **stream runoff (column 2)** (in acre-feet) of a river near Bishop, California (due east of San Jose) with **snowfall (column 1)** (in inches) at a site in the Sierra Nevada mountains. The data set contains 43 years' worth of measurements. Download the water.txt file from Canvas, and put it in the same folder as this R Markdown file.
+
+#### 0. Replace the text "< PUT YOUR NAME HERE >" (above next to "author:") with your full name.
+
+#### 1. Read in the data set, and call the dataframe "water". Print a summary of the data and make sure the data makes sense. 
+
+```{r}
+water <- read_table("water.txt")
+summary(water)
+```
+
+#### 2. Create (and print) a scatterplot of the data with variables on the appropriate axes. Make you plot look professional (e.g., axis labels are descriptive). You should save your plot as an object to be used throughout the rest of the assignment.
+
+```{r, fig.align='center'}
+water_plot <- water |>
+  ggplot(aes(x = Precip, y = Runoff)) +
+  geom_point()+
+  labs(x = "Snowfall(in)",
+       y = "Stream Runoff(acre-ft)",
+       title = "Snowfall vs Stream Runoff")
+water_plot
+```
+
+#### 3. Calculate (and report) the correlation coefficient. Use that and the scatterplot to briefly describe the relationship between Stream Runoff and Snowfall.
+
+```{r, fig.align='center'}
+cor(water$Precip, water$Runoff)
+```
+The correlation coefficient is 0.938. This and the scatterplot tell us that there is a strong positive correlation between Stream Runoff and Snowfall. 
+
+#### 4. Add the OLS regression line to the scatterplot you created in 2. Show the plot.
+
+```{r, fig.align='center'}
+water_plot +
+  geom_smooth(aes(x = Precip, y = Runoff),
+              method = "lm",
+              se = F)
+```
+
+#### 5. Fit a simple linear regression model to the data (no transformations), and save the residuals and fitted values to the `water` dataframe. Print a summary of the linear model.
+
+```{r}
+water.lm <- lm(Runoff~Precip, data = water)
+water$residuals <- water.lm$residuals
+water$fitted_vals <- water.lm$fitted.values
+summary(water.lm)
+```
+
+### Questions 6 to 10 involve using diagnostics to determine if the linear regression assumptions are met and if there are influential observations. For each assumption, (1) perform appropriate diagnostics to determine if the assumption is violated, and (2) explain whether or not you think the assumption is violated and why you think that. 
+
+#### 6. (L) $X$ vs $Y$ is linear
+
+```{r, fig.align='center'}
+autoplot(water.lm, which = 1, ncol = 1, nrow = 1) +
+  theme(aspect.ratio = 1)
+```
+The graph shows a mostly linear horizontal line through 0 on the graph. There is a bit of a pull down towards the end of the graph that might cause for concern but overall I think our data meets the linearity assumption. 
+
+#### 7. (I) The residuals are independent (no diagnostic tools - just think about how the data was collected and briefly write your thoughts)
+
+Since the description of the data does not mention if the data was collected randomly, and the time relationship is unclear, I would conclude that it does not meet the independence assumption.
+
+#### 8. (N) The residuals are normally distributed (use at least three diagnostic tools)
+
+```{r, fig.align='center'}
+ggplot(data = water, mapping = aes(y = residuals)) + 
+  geom_boxplot() + 
+  scale_x_discrete() + 
+  labs(title = "Residual Boxplot")
+
+ggplot(data = water, mapping = aes(x = residuals)) +
+  geom_density()
+
+qqPlot(water.lm)
+```
+
+Since the density plot and boxplot both follow a normal distribution, and the QQPlot does not show any major outliers, we can conclude that the distribution of the errors is normal. 
+
+#### 9. (E) The residuals have equal (constant) variance across all values of $X$ (homoscedastic) (use two diagnostic tools)
+
+```{r, fig.align='center'}
+autoplot(water.lm, which = 3, ncol = 1, nrow = 1)
+```
+
+The graph above shows a mostly horizontal line through the graph which tells us that the residuals do have constant variance so it passes this assumption. 
+
+#### 10. Check for influential points and report your findings.
+
+```{r, fig.align='center'}
+autoplot(water.lm, which = 4, ncol = 1, nrow = 1)  +
+  theme(aspect.ratio = 1)
+
+ cd_cont_pos <- function(leverage, level, model) {sqrt(level*length(coef(model))*(1-leverage)/leverage)}
+ cd_cont_neg <- function(leverage, level, model) {-cd_cont_pos(leverage, level, model)}
+
+ cd_threshold <- 0.5
+ autoplot(water.lm, which = 5) +
+   stat_function(fun = cd_cont_pos,
+                 args = list(level = cd_threshold, model = water.lm),
+                 xlim = c(0, 0.3), lty = 2, colour = "red") +
+   stat_function(fun = cd_cont_neg,
+                 args = list(level = cd_threshold, model = water.lm),
+                 xlim = c(0, 0.25), lty = 2, colour = "red") +
+   scale_y_continuous(limits = c(-4, 4))
+```
+
+Since all data points lie within the bounds for Cook's distance (<0.4) it can be concluded that there are not any influential points. 
+
+
+### Based on your answers to questions 6 through 10, you may (or may not) have decided a transformation to the data is needed. This was, hopefully, good practice for assessing model assumptions. For simplicity for this assignment, we will use the orignial model (no transformations) for the rest of the questions.
+
+
+
+
+#### 11. Mathematically write out the fitted simple linear regression model for this data set using the coefficients you found above (do not use betas or matrix notation). Do not use "X" and "Y" in your model - use variable names that are fairly descriptive.
+
+$\hat{Stream Runoff(acre-ft)}_i$ = $27014.6$ + $3752.5$ $\times$ $\text{Snowfall(in)}_i$
+
+#### 12. Compute a 95% confidence interval for the slope using the output from the lm() function (to get the standard error of beta_1) in tandem with the qt() function (to get the correct critical value).     
+
+```{r}
+water.se <- summary(water.lm)$sigma
+s_xx <- sum((water$Precip - mean(water$Precip))^2)
+std_err_b1 <- water.se / sqrt(s_xx)
+std_err_b1
+alpha <- .05
+mar_of_error <- qt(1-alpha/2, nrow(water) - 2) * std_err_b1
+b1 <- coef(water.lm)[2]
+cbind(b1 - mar_of_error, b1 + mar_of_error)
+```
+
+#### 13. Compute a 95% confidence interval for the slope using the confint() function in R (you should get the same answer as in 12).  Interpret the confidence interval.
+
+```{r}
+CI_slope_95 <- confint(water.lm, par = 2, level = 0.95)
+CI_slope_95
+```
+
+We are 95% confident that the true slope lies between the values 3316.809 and 4188.162.
+
+#### 14. Based on the confidence interval, is there a statistically significant linear association between snowfall and stream water? Why or why not?
+
+Based on the confidence interval, there is a statistically significant linear association between snowfall and stream water because the interval does not include the null value (zero).
+
+#### 15. Print a summary of the linear model. Interpret the results from the hypothesis test output for the slope.
+
+```{r}
+summary(water.lm)
+```
+The hypothesis test for the slope results in a p-value less than 0.05, so we can reject the null hypothesis and conclude that there is a significant relationship between precipitation and water runoff. 
+
+
+#### 16. Briefly describe the difference between (1) a confidence interval for the slope, (2) a confidence interval for the conditional mean of $Y$ given $x$, and (3) a prediction interval for individual observations.
+
+A confidence interval for the conditional mean of Y given x gives a range of values for E(Y|x), whereas a confidence interval for the slope depends on the overall regression line and the distance of our data points from that. Finally a prediction interval for individual observations differs from both because it gives a range of values for just Y centered around x*beta hat. 
+
+
+#### 17. Compute, print, *and interpret* a 95% confidence interval for the average of $Y$ when $x_i=30$.  You may use the predict() function in R.
+
+```{r}
+x_new <- 30
+predict(water.lm, 
+        newdata = data.frame(Precip = x_new), # Name your column the same as the orig
+        interval = "confidence", 
+        level = 0.95)
+```
+
+We are 95% confident that the true average value of Y when $x_i=30$ lies between 131902.2 and 147276.1. 
+
+#### 18. Create a confidence band for the average of $Y$ over a sequence of $X$ values spanning the range of the data, and overlay this band (using a distinct color) on your previous scatterplot that you created in 4. Print the plot.
+
+```{r}
+precip_values <- seq(min(water$Precip), max(water$Precip), length = 100)
+pred_CI <- predict(water.lm,
+                   newdata = data.frame(Precip = precip_values),
+                   interval = "confidence",
+                   level = 0.95) |> 
+  as.data.frame() |> 
+  mutate(Precip = precip_values)
+
+# Plot the fit and the CI
+ggplot(aes(Precip, Runoff), data = water) +
+  geom_point() +
+  geom_line(data = pred_CI, mapping = aes(y = fit), col = "blue") +
+  geom_line(data = pred_CI, mapping = aes(y = lwr), col = "red") +
+  geom_line(data = pred_CI, mapping = aes(y = upr), col = "red")
+```
+
+#### 19. Briefly explain why the confidence band is shaped the way that it is.
+
+The confidence band has a curve that is tighter in the middle and wider on the edges because we are able to calculate with more accuracy our true average values closer to the mean than further from it. 
+
+#### 20. Compute, print, *and interpret* a 95% prediction interval for $Y$ when $x_i=30$.   You may use the predict() function in R.
+
+```{r}
+x_new <- 30
+predict(water.lm, 
+        newdata = data.frame(Precip = x_new), # Name your column the same as the orig
+        interval = "predict", 
+        level = 0.95)
+```
+
+We can predict with 95% accuracy that the true value for Y when $x_i=30$ is between 119998.8 and 159179.5. 
+
+#### 21. Create a prediction band for $Y$ over a sequence of $X$ values spanning the range of the data, and overlay this band (using a distinct color) on your previous scatterplot that you created in 4. Print the plot.
+
+```{r}
+precip_values <- seq(min(water$Precip), max(water$Precip), length = 100)
+pred_CI <- predict(water.lm,
+                   newdata = data.frame(Precip = precip_values),
+                   interval = "predict",
+                   level = 0.95) |> 
+  as.data.frame() |> 
+  mutate(Precip = precip_values)
+
+# Plot the fit and the CI
+ggplot(aes(Precip, Runoff), data = water) +
+  geom_point() +
+  geom_line(data = pred_CI, mapping = aes(y = fit), col = "blue") +
+  geom_line(data = pred_CI, mapping = aes(y = lwr), col = "green") +
+  geom_line(data = pred_CI, mapping = aes(y = upr), col = "green")
+```
+
+#### 22. Briefly explain how/why the prediction band differs from the confidence band.
+
+The prediction band is much wider than the confidence band because making predictions based on a single value provides much less accuracy, so we have a wider range of possible predicted values.   
+
+#### 23. What is the MSE (Mean Square Error) for the linear model you fit? Hint: you may refer to the ANOVA table results.
+
+```{r}
+anova(water.lm)
+```
+The MSE for the model is 7.9610e+07.
+
+#### 24. Briefly explain (1) what the MSE estimates and (2) a drawback to using it as a model evaluation metric.
+
+MSE estimates the weighted average the squared distance between the residuals and our model. A drawback is that it is not always interpretable, and its value differs on the amount of data we have. 
+
+#### 25. Calculate the RMSE (Root Mean Square Error) for the linear model you fit. Print and interpret the result.
+
+```{r}
+RMSE <- sqrt(7.9610e+07)
+RMSE
+```
+
+
+#### 26. Print a summary of the linear model. Briefly interpret the R-Squared (Coefficient of Determination) value.
+
+```{r}
+summary(water.lm)
+```
+The R-squared value is 0.88. This means that the total variation in snowfall runoff explained by precipitation is 88%. 
+
+
+#### 27. What is the difference between the R-Squared value and the Adjusted R-Squared (shown in the summary output above)?
+
+The difference between the two values is that the adjusted R-squared is adjusted for all variables in a model.  
+
+#### 28. Look at the F-Statistic and corresponding $p$-value from the summary of the linear model (output shown above). Do these values indicate that $X$ has a statistically significant linear association with $Y$?
+
+With a high F-statistic and a very low p-val (<0.05) we can conclude that X does have a statistically significant linear association with Y. 
+
+#### 29. Briefly summarize what you learned, personally, from this analysis about the statistics, model fitting process, etc.
+
+I learned the difference between prediction and confidence intervals, and intuitively would have been able to guess a prediction interval would be wider, but in this homework I was able to see exactly why and how that happens. I also thought it was useful to compare MSE, R-squared, and F-stat with one another to understand why one is better to use than another. 
+
+#### 30. Briefly summarize what you learned from this analysis *to a non-statistician*. Write a few sentences about (1) the purpose of this data set and analysis and (2) what you learned about this data set from your analysis. Write your response as if you were addressing the mayor of city that relies on the stream runoff from the Sierras (avoid using statistics jargon) and just provide the main take-aways.
+
+What we learned from this analysis is that precipitation does have a significant impact on snowfall runoff. The purpose of this data was to illustrate a relationship between the two variables. We first created a linear model that attempted to calculate how strong the relationship between the two is. After running tests on our linear model fit to the data, I found that 88% of the change in runoff can be explained by precipitation. Which this information, the amount of precipitation for a given year can be used to predict a majority of the expected snowfall runoff you would encounter from the Sierras. 
